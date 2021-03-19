@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="City.DamGame" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#323232</item>
+        <item name="colorPrimaryVariant">@color/city_primary_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/city_secondary_variant</item>
+        <item name="colorSecondaryVariant">@color/city_light</item>
+        <item name="colorOnSecondary">@color/city_montain</item>
+        <item name="buttonStyle">@drawable/button_gradient</item>
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+
+    </style>
+</resources>

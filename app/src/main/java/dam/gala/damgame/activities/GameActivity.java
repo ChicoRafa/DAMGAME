@@ -180,6 +180,7 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
                 startGame();
             }
         });
+        //Prueba commit
         //aquí habrá que obtener aleatoriamente una pregunta
         //del repositorio
         CharSequence[] respuestas = new CharSequence[3];

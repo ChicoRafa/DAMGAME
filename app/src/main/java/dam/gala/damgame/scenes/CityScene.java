@@ -181,12 +181,12 @@ public class CityScene extends Scene {
 
     @Override
     public Bitmap getCrashViewBitmapTop() {
-        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.desert_column_top);
+        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.city_column_top);
     }
 
     @Override
     public Bitmap getCrashViewBitmapDown() {
-        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.desert_column_down);
+        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.city_column_down);
     }
 
     @Override
@@ -234,7 +234,7 @@ public class CityScene extends Scene {
      */
     @Override
     public Bitmap getScorePoints() {
-        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.desert_points_score);
+        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.city_points_score);
     }
 
     /**
@@ -243,6 +243,6 @@ public class CityScene extends Scene {
      */
     @Override
     public Bitmap getScoreAnswers() {
-        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.desert_answer_score);
+        return BitmapFactory.decodeResource(gameActivity.getResources(), R.drawable.city_answer_score);
     }
 }

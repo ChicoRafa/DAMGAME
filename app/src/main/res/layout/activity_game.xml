@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                app:srcCompat="@drawable/desert_answer_score" />
+                app:srcCompat="@drawable/city_answer_score" />
 
             <TextView
                 android:id="@+id/tvPoints"
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                app:srcCompat="@drawable/desert_points_score" />
+                app:srcCompat="@drawable/city_points_score" />
 
         </LinearLayout>
 

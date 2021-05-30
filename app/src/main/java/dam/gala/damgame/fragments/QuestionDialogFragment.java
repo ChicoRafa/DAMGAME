@@ -51,10 +51,9 @@ public class QuestionDialogFragment extends AppCompatDialogFragment
      * de comunicación con el fragmento
      * @param question Información de la pregunta y respuesta
      * @param interfaceDialog Interfaz de comunicación entre el fragmento y la actividad que
-     *                        lo muestra
      */
-    public QuestionDialogFragment(Question question, InterfaceDialog interfaceDialog){
-        this.question = question;
+    public QuestionDialogFragment(QuestionView question, InterfaceDialog interfaceDialog){
+        this.qView = question;
         this.interfaceDialog = interfaceDialog;
     }
 

@@ -105,6 +105,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     /**
      * Dibujar el estado actual de la escena
+     *
      * @param canvas Lienzo de dibujo
      */
     public void render(Canvas canvas) {
@@ -131,7 +132,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         //canvas.drawText(t.index + "", t.x, t.y, myPaint2);
                     }
                 }
-            }else {
+            } else {
                 gameConfig.setGravity(15);
             }
 
@@ -144,15 +145,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             //El pajaro ha chocado se dibuja l aexplosion.
             if ((this.bouncyView.isLanded() || this.bouncyView.isCrashed())
-                ) {
+            ) {
                 this.explosionView.draw(canvas, myPaint);
-                if(this.explosionView.isFinished() && this.play.isFinished() &&
-                        !this.isEndingGame()){
+                if (this.explosionView.isFinished() && this.play.isFinished() &&
+                        !this.isEndingGame()) {
                     this.setEndingGame(true);
                     this.endGame(false);
                 }
-            }
-            else
+            } else
                 this.bouncyView.draw(canvas, myPaint);
 
             for (QuestionView questionView : this.play.getQuestionViews())
@@ -168,11 +168,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * generando los nuevos estados y dejando listo el sistema para un repintado.
      */
     public void updateState() {
-        if(this.stopGame) return;
+        if (this.stopGame) return;
         this.updateSceneBackground();
 
         if (this.gameConfig.getFramesToNewCrashBlock() == 0) {
-            if (this.play.getCrashViews().size() < (this.gameConfig.getCrashBlocks()*2))
+            if (this.play.getCrashViews().size() < (this.gameConfig.getCrashBlocks() * 2))
                 this.createNewCrashBlock();
 
             this.gameConfig.setFramesToNewCrashBlock(GameLoop.MAX_FPS * 60 /
@@ -202,27 +202,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for (QuestionView goQuestion : this.play.getQuestionViews())
             goQuestion.updatePosition();
 
-        if(this.bouncyView.isQuestionCatched()){
+        if (this.bouncyView.isQuestionCatched()) {
             this.explosionView.updateState();
-            if(this.explosionView.isFinished() && !this.isGameStoped()) {
+            if (this.explosionView.isFinished() && !this.isGameStoped()) {
                 this.setStopGame(true);
-                //pregunta para prueba. El código que sigue hay que cambiarlo por la obtención
-                //de una pregunta aleatoria de la base de datos.
-                CharSequence[] respuestas = new CharSequence[3];
-                respuestas[0] = "Marte";
-                respuestas[1] = "Nébula";
-                respuestas[2] = "Mercurio";
-                int[] respuestasCorrectas = new int[]{1};
-
                 QuestionDialogFragment qdf = new QuestionDialogFragment(
-                        new Question("Selecciona cuál de los siguientes planetas no está en la vía láctea"
-                                , GameUtil.PREGUNTA_COMPLEJIDAD_ALTA, GameUtil.PREGUNTA_SIMPLE, respuestas,
-                                respuestasCorrectas, 10),
+                        this.bouncyView.getQuestionCatched(),
                         this.gameActivity);
-
                 qdf.show(this.gameActivity.getSupportFragmentManager(), "QuestionDialog");
             }
-        }else{
+        } else {
             if (!this.bouncyView.isLanded() && !this.bouncyView.isCrashed()) {
                 this.bouncyView.updateState();
             } else if (this.bouncyView.isLanded() || this.bouncyView.isCrashed()) {
@@ -289,20 +278,45 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
+    /**
+     * Actualiza la posición de la imagen de fondo en la escena
+     */
+    public void updateSceneBackground() {
+        //Obtiene imagenes actual y siguiente
+        this.scene.setxCurrentImg(this.scene.getxCurrentImg() - 1);
+        this.scene.setxNextImg(this.scene.getxNextImg() - 1);
+        //si la imagen actual ha pasado se pasa a la siguiente
+        if (this.scene.getxCurrentImg() < -this.screenWidth) {
+            //Tomaos la nueva dle array de imagenes
+            if (this.scene.getCurrentImgIndex() == this.scene.getQuestionViewImgNumber() - 1)
+                this.scene.setCurrentImgIndex(0);
+            else
+                this.scene.setCurrentImgIndex(this.scene.getCurrentImgIndex() + 1);
+            if (this.scene.getNextImgIndex() == this.scene.getQuestionViewImgNumber() - 1)
+                this.scene.setNextImgIndex(0);
+            else
+                this.scene.setNextImgIndex(this.scene.getNextImgIndex() + 1);
+            //se repite el proceso de obtención de actual y siguiente
+            this.scene.setxCurrentImg(this.screenWidth);
+            this.scene.setxNextImg(0);
+        }
+    }
 
     /**
      * Comprueba si el juego va a finalizar
+     *
      * @return Devuelve el estado de finalización del juego
      */
-    public boolean isEndingGame(){
+    public boolean isEndingGame() {
         return this.endingGame;
     }
 
     /**
      * Asigna el estado de finalización de juego
+     *
      * @param endingGame Finalización del juego (true)
      */
-    public void setEndingGame(boolean endingGame){
+    public void setEndingGame(boolean endingGame) {
         this.endingGame = endingGame;
     }
 
@@ -401,7 +415,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * Reinicia el estado de los views en el juego
      */
-    public void restart(){
+    public void restart() {
         this.bouncyView.reStart();
         this.explosionView.restart();
         this.play.getQuestionViews().clear();
@@ -412,16 +426,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.play.setCrashBlockCreated(0);
         this.play.setQuestionsCreated(0);
     }
+
     /**
      * Finaliza el juego
+     *
      * @param force Fuerza la finalización del juego (true)
      */
-    public void endGame(boolean force){
+    public void endGame(boolean force) {
         this.audioController.stopAudioPlay();
-        if(!this.audioController.isAudioEndGameStarted())
+        if (!this.audioController.isAudioEndGameStarted())
             this.audioController.startAudioEndGame();
         this.gameLoop.endGame();
-        if(!force) {
+        if (!force) {
             this.gameActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -439,7 +455,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             hideSystemUI();
         }
     }
-    private void hideSystemUI(){
+
+    private void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
         // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY

@@ -15,8 +15,8 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMailTask extends AsyncTask<GameMailMessage,Integer,Boolean> {
     public boolean sendMail(GameMailMessage gameMailMessage){
-        final String USERNAME = "dam2afranciscojesuscarcelescalvente@iesantoniogala.es";
-        final String PASSWORD = "XXXXXX";
+        final String USERNAME = "dam1arafaelmartinrocha@iesantoniogala.es";
+        final String PASSWORD = "alumnado";
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

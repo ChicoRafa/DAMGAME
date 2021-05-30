@@ -1,18 +1,15 @@
 package dam.gala.damgame.utils;
-
-import android.view.View;
-
 /**
  * Utiles con características inmutables
  * @author 2º DAM - IES Antonio Gala
  * @version 1.0
  */
 public abstract class GameUtil {
-    public static final int PREGUNTA_COMPLEJIDAD_BAJA=0; //puntos
-    public static final int PREGUNTA_COMPLEJIDAD_ALTA=1; //puntos o 1 vida
-    public static final int PREGUNTA_SIMPLE=10; //radibuttons
-    public static final int PREGUNTA_MULTIPLE=20; //checkboxes
-    public static final int PREGUNTA_LISTA=30; //spinner
+    public static final int PREGUNTA_COMPLEJIDAD_BAJA=0;
+    public static final int PREGUNTA_COMPLEJIDAD_ALTA=1;
+    public static final int PREGUNTA_SIMPLE=10;
+    public static final int PREGUNTA_MULTIPLE=20;
+    public static final int PREGUNTA_LISTA=30;
     public static final int TEMA_CIUDAD=100;
     public static final int TEMA_DESIERTO=101;
     public static final int TEMA_ESPACIO=102;

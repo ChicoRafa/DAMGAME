@@ -30,7 +30,7 @@ public class QuestionExplosionView {
         this.spriteWidth = scene.getQuesExplosionViewWidth()/scene.getQuesExplosionViewImgNumber();
         this.spriteHeight = scene.getQuesExplosionViewHeight();
         this.questionExplosionBitmap = scene.getQuesExplosionViewBitmap();
-        this.spriteIndex = -1; //recien creado
+        this.spriteIndex = -1;
     }
     /**
      * Se actualiza el estado de animación de explosión

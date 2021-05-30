@@ -2,6 +2,8 @@ package dam.gala.damgame.model;
 
 import androidx.annotation.NonNull;
 import dam.gala.damgame.activities.GameActivity;
+import dam.gala.damgame.data.DataBaseHelper;
+import dam.gala.damgame.data.DatabaseManager;
 import dam.gala.damgame.utils.GameUtil;
 import dam.gala.damgame.views.CrashView;
 import dam.gala.damgame.scenes.CityScene;
@@ -10,6 +12,7 @@ import dam.gala.damgame.scenes.Scene;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Jugada, recoge las principales características del juego
@@ -132,9 +135,6 @@ public class Play {
     //-----------------------------------------------------------------------------------------
     //Métodos para preguntas
     //-----------------------------------------------------------------------------------------
-    public ArrayList<Question> getQuestions() {
-        return this.questions;
-    }
     public ArrayList<QuestionView> getQuestionViews() {
         return questionViews;
     }
@@ -195,5 +195,27 @@ public class Play {
                 }
             }
         });
+    }
+
+    /**
+     * Este método accede a la base de datos, toma el número de preguntas que vayamos a precisar
+     * para la partida de forma aleatoria y las introduce en el array que irá proporcionandole al
+     * jugador las preguntas a contestar
+     */
+    private void getAllQuestions(){
+        DataBaseHelper databaseHelper = new DataBaseHelper(this.gameActivity,null,null, 1);
+        DatabaseManager databaseManager = new DatabaseManager(databaseHelper);
+        ArrayList<Question> questions = databaseManager.getQuestions();
+        ArrayList<Question> selected = new ArrayList<>();
+        Random random = new Random();
+        while(selected.size() < this.config.getQuestions()){
+            int rndNum = random.nextInt(questions.size());
+            if(!selected.contains(rndNum))
+                selected.add(questions.get(rndNum));
+        }
+        this.questions = selected;
+    }
+    public ArrayList<Question> getQuestions(){
+        return this.questions;
     }
 }

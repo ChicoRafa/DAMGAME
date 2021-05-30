@@ -18,11 +18,6 @@ public class Question {
     private int curso;
     private int asignatura;
     private int nivel;
-    //TODO este constructor es provisional, habrá que quitarlo cuando se tengan las preguntas
-    //de las preguntas
-    public Question(){
-
-    }
     /**
      * Construye una pregunta a partir de las propiedades indicadas como parámetros
      * @param enunciado Enunciado de la pregunta

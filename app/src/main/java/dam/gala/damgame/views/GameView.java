@@ -281,7 +281,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void createNewQuestion() {
         if (this.gameActivity.getGameConfig().getQuestions() -
                 this.play.getQuestionsCreated() > 0) {
-            Question question = new Question();
+            Question question = this.play.getQuestions().get(this.play.getQuestionsCreated());
             QuestionView goQuestion = new QuestionView(this.play, question);
             this.play.getQuestionViews().add(goQuestion);
             this.play.setQuestionsCreated(this.play.getQuestionsCreated() + 1);

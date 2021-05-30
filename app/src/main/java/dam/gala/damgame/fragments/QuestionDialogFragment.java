@@ -27,6 +27,7 @@ import dam.gala.damgame.R;
 import dam.gala.damgame.interfaces.InterfaceDialog;
 import dam.gala.damgame.model.Question;
 import dam.gala.damgame.utils.GameUtil;
+import dam.gala.damgame.views.QuestionView;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
@@ -39,6 +40,7 @@ import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 public class QuestionDialogFragment extends AppCompatDialogFragment
 {
     private Question question;
+    private QuestionView qView;
     private AlertDialog.Builder builder;
     private Button btConfirmar;
     private InterfaceDialog interfaceDialog;
@@ -120,10 +122,10 @@ public class QuestionDialogFragment extends AppCompatDialogFragment
         RadioGroup rgRes = dialogView.findViewById(R.id.rgRes);
         for(int i=0;i<rgRes.getChildCount();i++) {
             RadioButton rbRes = (RadioButton)rgRes.getChildAt(i);
-            if (i > question.getRespuestas().length-1)
+            if (i > qView.getQuestion().getRespuestas().size())
                 rbRes.setVisibility(View.GONE);
             else {
-                rbRes.setText(question.getRespuestas()[i]);
+                rbRes.setText(qView.getQuestion().getRespuestas().get(i).getAnswer());
                 rbRes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

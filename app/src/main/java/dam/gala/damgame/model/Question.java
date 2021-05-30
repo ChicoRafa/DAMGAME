@@ -1,5 +1,9 @@
 package dam.gala.damgame.model;
 
+import java.util.List;
+
+import dam.gala.damgame.utils.GameUtil;
+
 /**
  * Pregunta
  * @author 2º DAM - IES Antonio Gala
@@ -9,9 +13,11 @@ public class Question {
     private String enunciado;
     private int complejidad;
     private int tipo;
-    private CharSequence[]respuestas;
-    private int[] respuestasCorrectas;
+    private List<Answer> respuestas;
     private int puntos;
+    private int curso;
+    private int asignatura;
+    private int nivel;
     //TODO este constructor es provisional, habrá que quitarlo cuando se tengan las preguntas
     //de las preguntas
     public Question(){
@@ -22,19 +28,18 @@ public class Question {
      * @param enunciado Enunciado de la pregunta
      * @param complejidad Complejidad de la pregunta (ALTA O BAJA)
      * @param tipo Tipo de pregunta (respuesta simple o respuesta múltiple)
-     * @param respuestas Respuestas a la pregunta
-     * @param respuestasCorrectas Índices de las respuestas correctas
-     * @param puntos Puntuación de la pregunta
      */
-    public Question(String enunciado, int complejidad
-        , int tipo, CharSequence[] respuestas,
-                    int[] respuestasCorrectas, int puntos){
+    public Question(int numero,int curso, int asignatura, String enunciado, int complejidad
+            , int tipo){
         this.enunciado=enunciado;
         this.complejidad = complejidad;
         this.tipo = tipo;
-        this.respuestas = respuestas;
-        this.respuestasCorrectas = respuestasCorrectas;
-        this.puntos = puntos;
+        this.puntos = complejidad ==
+                GameUtil.PREGUNTA_COMPLEJIDAD_ALTA?GameUtil.PUNTOS_PREGUNTA_CALTA:
+                GameUtil.PUNTOS_PREGUNTA_CBAJA;
+        this.asignatura = asignatura;
+        this.nivel = nivel;
+        this.curso = curso;
     }
 
     //-----------------------------------------------------------------------------------------
@@ -64,15 +69,22 @@ public class Question {
         this.tipo = tipo;
     }
 
-    public CharSequence[] getRespuestas() {
+    public List<Answer> getRespuestas() {
         return respuestas;
     }
-
-    public int[] getRespuestasCorrectas() {
-        return respuestasCorrectas;
-    }
-
     public int getPuntos() {
         return puntos;
+    }
+    public int getCurso() {
+        return curso;
+    }
+    public int getAsignatura() {
+        return asignatura;
+    }
+    public int getNivel() {
+        return nivel;
+    }
+    public void setRespuestas(List<Answer> respuestas) {
+        this.respuestas = respuestas;
     }
 }

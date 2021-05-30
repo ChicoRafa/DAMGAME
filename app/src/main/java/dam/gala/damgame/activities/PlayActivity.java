@@ -15,20 +15,21 @@ import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class PlayActivity extends AppCompatActivity {
     private int codigoScena;
-    private final int SETTINGS =1;
+    private final int SETTINGS = 1;
     private final int GAME_ACTIVITY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //actividad principal
         setContentView(R.layout.activity_principal);
-
+        //Esconde IU y establece tema
         hideSystemUI();
         setTema();
-
+        //enlaza botones de vista con actividad
         Button btLogin = findViewById(R.id.btnLogin);
         Button btnRegister = findViewById(R.id.btnRegister);
-
+        ///on click para el boton del login
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,6 +37,7 @@ public class PlayActivity extends AppCompatActivity {
                 startActivityForResult(preferences, GAME_ACTIVITY);
             }
         });
+        //on click para el botón del register
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,28 +46,32 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Elimina la barra de acción y deja el mayor área posible de pantalla libre
      */
-    public void hideSystemUI(){
+    public void hideSystemUI() {
 
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
+                        // establece el contenido de forma que aparezca bajo las barras de sistema,
+                        // con el fin de que no se redimensionen al esconder y mostrar las barras
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
+                        // esconde barra de navegación y de estado
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
-    private void setTema(){
+    /**
+     * Establece el tema seleccionado en las preferencias, en este caso, el tema será el de la ciudad
+     */
+    private void setTema() {
         this.codigoScena = Integer.parseInt(getDefaultSharedPreferences(this).
-                getString("theme_setting",String.valueOf(GameUtil.TEMA_CIUDAD)));
-        switch(this.codigoScena){
+                getString("theme_setting", String.valueOf(GameUtil.TEMA_CIUDAD)));
+        switch (this.codigoScena) {
             case GameUtil.TEMA_CIUDAD:
                 setTheme(R.style.City_DamGame);
                 break;

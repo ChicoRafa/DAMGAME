@@ -1,10 +1,12 @@
 package dam.gala.damgame.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,50 +27,66 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //se selecciona la actividad de login
         setContentView(R.layout.activity_login);
-
+        //Esconde IU y estipula tema
         hideSystemUI();
         setTema();
-
+        //se enlazan los botones con las variables
         btnLogin = findViewById(R.id.btnLogin);
-        edTextEmail = findViewById(R.id.editTextRegisterEmail);
-        edTextPswd = findViewById(R.id.editTextPasswordRegister);
-
-     /*   btnLogin.setOnClickListener(new View.OnClickListener() {
+        edTextEmail = findViewById(R.id.EmailLogin);
+        edTextPswd = findViewById(R.id.PasswordLogin);
+        //Al hacer click en login se procede con el mismo
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent preferences = new Intent(LoginActivity.this, GameActivity.class);
                 startActivityForResult(preferences, GAME_ACTIVITY);
+                loger();
             }
-        }); */
 
-        }
+        });
 
+    }
+
+    /**
+     * Método que permite el inicio de sesión en la app, básicamente toma una cadena y hace un toast
+     */
+    private void loger() {
+        Context context = getApplicationContext();
+        CharSequence text = "Inicio de sesión exitoso";
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
 
     /**
      * Elimina la barra de acción y deja el mayor área posible de pantalla libre
      */
-    public void hideSystemUI(){
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    public void hideSystemUI() {
+        // Activa el modo inmersivo normal.
+        // para el modo "lean back", elimine SYSTEM_UI_FLAG_IMMERSIVE.
+        // o para "sticky immersive," reemplacelo por SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
+                        // establece el contenido de forma que aparezca bajo las barras de sistema,
+                        // con el fin de que no se redimensionen al esconder y mostrar las barras
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
+                        // esconde barra de navegación y de estado
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
-    private void setTema(){
+    /**
+     * Establece el tema seleccionado en las preferencias, en este caso, el tema será el de la ciudad
+     */
+    private void setTema() {
         this.codigoScena = Integer.parseInt(getDefaultSharedPreferences(this).
-                getString("theme_setting",String.valueOf(GameUtil.TEMA_CIUDAD)));
-        switch(this.codigoScena){
+                getString("theme_setting", String.valueOf(GameUtil.TEMA_CIUDAD)));
+        switch (this.codigoScena) {
             case GameUtil.TEMA_CIUDAD:
                 setTheme(R.style.City_DamGame);
                 break;

@@ -15,7 +15,25 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editTextRegisterEmail"
+            android:id="@+id/UsernameLogin"
+            android:layout_width="0dp"
+            android:layout_height="69dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Nombre de usuario"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/EmailLogin"
             android:layout_width="0dp"
             android:layout_height="69dp"
             android:layout_weight="1"
@@ -33,7 +51,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editTextPasswordRegister"
+            android:id="@+id/PasswordLogin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

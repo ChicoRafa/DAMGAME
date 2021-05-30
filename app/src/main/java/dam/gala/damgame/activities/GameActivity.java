@@ -40,11 +40,12 @@ import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 /**
  * Actividad principal
+ *
  * @author 2º DAM - IES Antonio Gala
  * @version 1.0
  */
 public class GameActivity extends AppCompatActivity implements InterfaceDialog {
-    private final int SETTINGS_ACTION =1;
+    private final int SETTINGS_ACTION = 1;
     private Play gameMove;
     private int sceneCode;
     private GameView gameView;
@@ -63,6 +64,7 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
     /**
      * Método de callback del ciclo de vida de la actividad, llamada anterior a que la actividad
      * pasé al estado 'Activa'
+     *
      * @param savedInstanceState Contenedor para paso de parámetros y guardar información entre
      *                           distintos estados de la actividad
      */
@@ -102,11 +104,11 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
             }
 
         });
-
+*/
         // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
-      */
-       /*     @Override
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+
+            @Override
             public void handleOnBackPressed() {
                 GameActivity.this.gameView.endGame(true);
                 finish();
@@ -114,58 +116,53 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
-
-        //esta línea hay que quitarla está de prueba
-      //  DataBaseHelper dataBaseHelper = new DataBaseHelper(this,"bbdddamgame.db", null, 1);
-       // DatabaseManager databaseManager = new DatabaseManager(dataBaseHelper);
-        //ArrayList<Question> preguntas = databaseManager.getPreguntas();
-    */
     }
-
 
 
     /**
      * Inicio del juego
      */
-    private void startGame(){
+    private void startGame() {
+        //configuración general
         this.sceneCode = Integer.parseInt(getDefaultSharedPreferences(this).
-                getString("ambient_setting",String.valueOf(GameUtil.TEMA_CIUDAD)));
-        this.gameMove = Play.createGameMove(this,this.sceneCode);
+                getString("ambient_setting", String.valueOf(GameUtil.TEMA_CIUDAD)));
+        this.gameMove = Play.createGameMove(this, this.sceneCode);
         this.scene = this.gameMove.getScene();
         this.config = new GameConfig(this.scene);
         this.getPlay().setConfig(this.config);
-
+        //contenido del layout
         setContentView(R.layout.activity_game);
-
+        //vista dle juego
         this.gameView = findViewById(R.id.svGame);
-
+        //Esconder interfaz de usuario
         hideSystemUI();
-
+        // audio
         this.audioController = this.gameView.getAudioController();
         this.audioController.startSceneAudioPlay();
-
+        //puntuación
         this.loadScoreComponents();
     }
 
     /**
      * Carga las imágenes del marcador de vidas, puntos y respuestas
      */
-    private void loadScoreComponents(){
+    private void loadScoreComponents() {
+        //vidas
         this.lifes = new ArrayList<>();
         this.lifes.add(findViewById(R.id.ivBouncy1));
         this.lifes.add(findViewById(R.id.ivBouncy2));
         this.lifes.add(findViewById(R.id.ivBouncy3));
-
+        //puntuación de preguntas
         this.ivAnswers = findViewById(R.id.ivAnswers);
         this.ivAnswers.setImageBitmap(this.scene.getScoreAnswers());
-
+        //puntucación general
         this.ivPoints = findViewById(R.id.ivPoints);
         this.ivPoints.setImageBitmap(this.scene.getScorePoints());
     }
     /**
      * Muestra el cuadro de diálogo de la pregunta
      */
-    private void showQuestionDialog(){
+   /* private void showQuestionDialog(){
         //código para probar el cuadro de diálogo
         Button btPregunta = findViewById(R.id.btIniciar);
 
@@ -195,17 +192,15 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
         QuestionDialogFragment qdf = new QuestionDialogFragment(question, GameActivity.this);
         qdf.setCancelable(false);
         qdf.show(getSupportFragmentManager(),null);
-    }
+    }*/
+
     /**
-     * Establece el tema seleccionado en las preferencias
+     * Establece el tema seleccionado en las preferencias, en este caso, el tema será el de la ciudad
      */
-    private void setTema(){
+    private void setTema() {
         this.sceneCode = Integer.parseInt(getDefaultSharedPreferences(this).
-                getString("theme_setting",String.valueOf(GameUtil.TEMA_CIUDAD)));
-        switch(this.sceneCode){
-/*            case GameUtil.TEMA_DESIERTO:
-                setTheme(R.style.Desert_DamGame);
-                break;*/
+                getString("theme_setting", String.valueOf(GameUtil.TEMA_CIUDAD)));
+        switch (this.sceneCode) {
             case GameUtil.TEMA_CIUDAD:
                 setTheme(R.style.City_DamGame);
                 break;
@@ -215,6 +210,10 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
         }
 
     }
+
+    /**
+     * Se oculta interfaz de usuario y el foco de la ventana en el movil
+     */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -222,73 +221,85 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
             hideSystemUI();
         }
     }
+
     /**
      * Elimina la barra de acción y deja el mayor área posible de pantalla libre
      */
-    public void hideSystemUI(){
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    public void hideSystemUI() {
+        // Activa el modo inmersivo normal.
+        // para el modo "lean back", elimine SYSTEM_UI_FLAG_IMMERSIVE.
+        // o para "sticky immersive," reemplacelo por SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
+                        // establece el contenido de forma que aparezca bajo las barras de sistema,
+                        // con el fin de que no se redimensionen al esconder y mostrar las barras
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
+                        // esconde barra de navegación y de estado
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
+
     /**
-     * Obitiene la jugada actual
+     * Obtiene la jugada actual
+     *
      * @return Devuelve la jugada actual (Play)
      */
-    public Play getPlay(){
+    public Play getPlay() {
         return this.gameMove;
     }
+
     /**
      * Obtiene la configuración del juego
+     *
      * @return Devuelve la configuración del juego (GameConfig)
      */
-    public GameConfig getGameConfig(){
+    public GameConfig getGameConfig() {
         return this.config;
     }
+
     /**
      * Obtiene el controlador audio
+     *
      * @return Devuelve el controlador de audio del juego (AudioController)
      */
-    public AudioController getAudioController(){
+    public AudioController getAudioController() {
         return this.audioController;
     }
+
     @Override
     public void setRespuesta(String respuesta) {
-        Toast.makeText(this,respuesta,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, respuesta, Toast.LENGTH_LONG).show();
         //si la respuesta es correcta hay que actualizar los puntos y las preguntas respondidas
         this.gameView.setStopGame(false);
         this.gameView.restart();
     }
+
     /**
      * Menú principal de la aplicación
+     *
      * @param menu Menú de aplicación
      * @return Devuelve true si se ha creado el menú
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
     /**
      * Evento de selección de elemento de menú
+     *
      * @param item Item de menú
      * @return Devuelve true si se ha tratado el evento recibido
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.imSettings:
                 Intent preferences = new Intent(GameActivity.this, SettingsActivity.class);
                 startActivityForResult(preferences, SETTINGS_ACTION);
@@ -296,19 +307,20 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
         }
         return true;
     }
+
     /**
      * Método de callback para recibir el resultado de una intención llamada para devolver un
      * resultado
+     *
      * @param requestCode Código de la petición (int)
-     * @param resultCode Código de respuesta (int)
-     * @param data Intención que devuelve el resultado, la que produce el callback
+     * @param resultCode  Código de respuesta (int)
+     * @param data        Intención que devuelve el resultado, la que produce el callback
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode== SETTINGS_ACTION){
-            if(resultCode== Activity.RESULT_OK){
-                //TODO Este método hay que revisarlo y borrarlo si finalmente no se usa
+        if (requestCode == SETTINGS_ACTION) {
+            if (resultCode == Activity.RESULT_OK) {
             }
         }
     }
@@ -319,10 +331,11 @@ public class GameActivity extends AppCompatActivity implements InterfaceDialog {
      */
     /**
      * Actualiza las imágenes de las vidas disponibles, oculta la última imagen de las vidas
+     *
      * @param index Índice la imagen a ocultar
      */
-    public void updateLifes(Integer index){
-        if(index>=0)
+    public void updateLifes(Integer index) {
+        if (index >= 0)
             this.lifes.get(index).setVisibility(View.INVISIBLE);
     }
 }

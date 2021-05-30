@@ -173,4 +173,32 @@ public abstract class Scene {
     public int getScreenHeight(){
         return this.screenHeight;
     }
+    /**
+     * Actualiza la posición de la imagen de fondo en la escena
+     */
+    public void updateSceneBackground() {
+        //nueva posición del fondo
+        this.scene.setxCurrentImg(this.scene.getxCurrentImg() - 1);
+        this.scene.setxNextImg(this.scene.getxNextImg() - 1);
+
+        /*Si la imagen de fondo actual ya ha bajado completamente*/
+        if (this.scene.getxCurrentImg() < -this.screenWidth) {
+
+            //Se actualiza la imagen actual a la siguiente del array de imagenes
+            if (this.scene.getCurrentImgIndex() == this.scene.getQuestionViewImgNumber() - 1)
+                this.scene.setCurrentImgIndex(0);
+            else
+                this.scene.setCurrentImgIndex(this.scene.getCurrentImgIndex() + 1);
+
+            //Se actualiza la imagen siguiente
+            if (this.scene.getNextImgIndex() == this.scene.getQuestionViewImgNumber() - 1)
+                this.scene.setNextImgIndex(0);
+            else
+                this.scene.setNextImgIndex(this.scene.getNextImgIndex() + 1);
+
+            //Nuevas coordenadas
+            this.scene.setxCurrentImg(this.screenWidth);
+            this.scene.setxNextImg(0);
+        }
+    }
 }
